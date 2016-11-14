@@ -16,7 +16,7 @@ https://halil.io
 
 * Lokal Versiyon Kontrol Sistemi (LVCS)
 
-- Çoğu kullanıcının version tutmak için kullandığı metod, dosyaları başka bir klasöre tutmak olmuştur. Bu metod çok basit olmasına karşın beraberinde bir çok sorun getirir. Hangi projede çalıştığınız, hangi dosyaya yazdığınız zamanla unutulabilir ve projeniz bu metod ile karışabilir.
+- Çoğu kullanıcının version tutmak için kullandığı metod, dosyaları başka bir klasörde tutmak olmuştur. Bu metod çok basit olmasına karşın beraberinde bir çok sorun getirir. Hangi projede çalıştığınız, hangi dosyaya yazdığınız zamanla unutulabilir ve projeniz bu metod ile karışabilir.
 
 - Bu sorunla başa çıkabilmek için programcılar uzun zaman önce bütün değişiklikleri lokal bir veritabanında tutan versiyon kontrol sistemi geliştirdiler.
 
@@ -48,14 +48,14 @@ https://halil.io
 .image git/deltas.png
 
 * Dosya Farklılıkları Yerine Dosya Görüntüleri
-- Git, dosyaları minyatür bir dosya sistemi içinde görüntüler olarak düşünür.
+- Git, içerdiği dosyaları minyatür bir dosya sistemi içinde görüntüler (snapshot) olarak düşünür.
 - Her commit yaptığınızda, Git, dosyalarınızın o an nasıl göründüğünün görüntüsünü/fotoğrafını çeker ve bu görüntüyü referans olarak saklar.
-- Git, etkili ve hızlı olabilmek için, dosyanın içeriği değişmediyse o dosyayı tekrar saklamaz ve sadece o dosyaya ait bir link oluşturur.
+- Git, etkili ve hızlı olabilmek için, dosyanın içeriği değişmediyse o dosyayı tekrar saklamaz ve sadece o dosyaya ait bir link/referans oluşturur.
 .image git/snapshots.png
 
 * Neredeyse bütün operasyonlar lokalde gerçekleşir
 - Git üzerinde çoğu operasyon sadece lokal bir ortama ihtiyaç duyar.
-- Diğer sistemlerin (CVS, Subversion vs.) aksine repoların tüm geçmişi aynı zamanda lokalde de tutulduğu için Git çok hızlı iş görür.
+- Diğer sistemlerin (CVS, Subversion vs.) aksine repoların tüm geçmişi aynı zamanda lokalde de tutulduğu için Git çok hızlı işlem yapar.
 - Örneğin bir projenin geçmişine bakmak isterseniz, Git bunu sunucudan çekip size göstermek yerine direk lokal veritabanından gösterir.
 - Bir dosyanın şu anki hali ile 1 ay önceki halini karşılaştırmak isterseniz, Git, sunucuya tekrar sormak yerine lokaldeki veritabanından 1 ay önceki dosyayı bulup farklılıkları size direk gösterebilir.
 - İnternetin olmadığı bir ortamda bu şekilde rahatça çalışabilir, internete çıktığınız anda istediğiniz zaman sunucuya son değişiklikleri gönderebilirsiniz.
@@ -76,3 +76,162 @@ https://halil.io
 
 * Üç Durum
 .image git/areas.png
+
+* Git Kurulumu
+Linux: 
+.link http://git-scm.com/download/linux http://git-scm.com/download/linux
+Mac: 
+.link http://git-scm.com/download/mac http://git-scm.com/download/mac
+Windows: 
+.link http://git-scm.com/download/win http://git-scm.com/download/win
+Windows (GUI): 
+.link http://windows.github.com/ http://windows.github.com/
+
+* Git Ayarları
+	$ git config --global user.name "Adiniz Soyadiniz"
+	$ git config --global user.email mail@adresiniz
+- Projenize özel bir ayar girmek isterseniz `--global` parametresini girmeden değiştirebilirsiniz
+
+* Git Repoları
+- Projeniz için bir git reposu oluşturmak istiyorsanız projenin olduğu klasöre gidip şu komutu vermeniz gerekir.
+	$ git init
+- Bu komut ile projeniz içinde `.git` klasörü oluşturulur. Bu klasörde git'in ihtiyaç duyduğu repoya ait bir çok bilgi bulunur.
+- Hali hazırda olan dosyalarınızı versiyon kontrolüne sokmak için `stage` aşamasına almanız gerekir.
+	$ git add *.cs
+	$ git add README
+	$ git commit -m 'ilk commit'
+
+* Git Repoları
+- Başka bir git reposunu bilgisayarınıza indirmek için `clone` komutunu kullanmanız gerekir.
+- Klonladığınız repo artık tüm geçmişiyle birlikte bilgisayarınıza inmiş olur.
+	$ git clone https://github.com/hionay/presentations
+- Başka bir klasör olarak indirmek isterseniz bunu bir sonraki parametrede belirtebilirsiniz.
+	$ git clone https://github.com/hionay/presentations sunumlar
+
+* Değişiklikleri repoya kaydetmek
+- Projede istediğiniz bir değişikliği tamamladığınızda bu değişiklikleri *commit* etmeniz gerekir.
+- Projenizdeki dosyalar 2 durumdan birinde olabilir: izlenen (tracked) ve izlenmeyen (untracked)
+- İzlenmeyen dosyalar son commit'iniz içinde yer almayan ve henüz *staged* duruma geçmemiş dosyalardır.
+- Bir repoyu uzaktan klonladığınızda bütün dosyalar *tracked* durumunda ve değişikliğe uğramamış halde iner.
+- Dosyaları değiştirdikçe Git, bu dosyaları *modified* olarak belirler sonrasında ise bu değişen dosyaları *commit* etmek üzere *staged* durumuna alırsınız.
+
+* Değişiklikleri repoya kaydetmek
+.image git/lifecycle.png
+
+* Dosyalarınızın durumunu kontrol etmek
+- Bu kontrolu `git`status` komutuyla sağlarız.
+	$ git status
+	On branch master
+	Your branch is up-to-date with 'origin/master'.
+	nothing to commit, working directory clean
+- Bu durum izlenen (yeni eklenen) veya değişikliğe uğramış dosyanızın olmadığını belirtir. 
+
+* Dosyalarınızın durumunu kontrol etmek
+- Yeni bir dosya eklediğinizde veya dosyalarda değişiklik yaptığınızda `git`status` bu durumu belirten bir çıktı verir.
+	$ echo 'MERHABA' > hello.txt
+	$ git status
+	On branch master
+	Your branch is up-to-date with 'origin/master'.
+	Untracked files:
+	  (use "git add <file>..." to include in what will be committed)
+	hello.txt
+
+	nothing added to commit but untracked files present (use "git add" to track)
+
+- Gördüğünüz gibi *hello.txt* dosyası *untracked* olarak gözüküyor. *untracked* durumu kısaca Git'in bu dosyayı bir önceki *commit* üzerinde görmemesi anlamına gelir.
+
+* Yeni dosyaların izlenmesi
+- Yeni bir dosyayı *tracked* durumuna almak için `git`add` komutu kullanılır.
+	 $ git add hello.txt
+- Tekrar `git`status` ile durum kontrolü yaptığınızda *hello.txt* dosyanızın artık *tracked* ve *staged* durumuna geçtiğini görürsünüz.
+	$ git status
+	On branch master
+	Your branch is up-to-date with 'origin/master'.
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+
+	    new file:   hello.txt
+
+* Değişiklik yapılan dosyaları staged durumuna almak
+- Başka bir dosyayı değiştirdiğinizde (*deneme.txt*) ve tekrar `git`status` ile durum kontrolü yaptığınızda son durum şu şekilde gözükecektir.
+	$ git status
+	On branch master
+	Your branch is up-to-date with 'origin/master'.
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+
+	    new file:   hello.txt
+
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	    modified:   deneme.txt
+- Bu durumda *commit* edilecek dosya sadece *hello.txt* dosyasıdır. Değişiklik yapılan dosyanın da *commit* edilebilmesi için önce *staged* durumuna alınması gerekir.
+
+* Değişiklik yapılan dosyaları staged durumuna almak
+- Değişiklik yaptığımız dosyayı *staged* durumuna aldığımızda 2 dosya da artık commit edilmeye hazır hale gelir.
+	$ git add deneme.txt
+	$ git status
+	On branch master
+	Your branch is up-to-date with 'origin/master'.
+	Changes to be committed:
+	  (use "git reset HEAD <file>..." to unstage)
+
+	    new file:   hello.txt
+	    modified:   deneme.txt
+
+* Dosyaları görmezden gelmek
+- Bazı dosyalarınızı Git'in görmemesini ve izlememesini `.gitignore` dosyasına bu dosyaları yazarak sağlayabilirsiniz. Genelde bu dosyalar otomatik oluşturulan loglar, çalıştırılabilir binary dosyalardır.
+	$ cat .gitignore
+	# no .a files
+	*.a
+
+	# but do track lib.a, even though you're ignoring .a files above
+	!lib.a
+
+	# only ignore the TODO file in the current directory, not subdir/TODO
+	/TODO
+
+	# ignore all files in the build/ directory
+	build/
+
+	# ignore doc/notes.txt, but not doc/server/arch.txt
+	doc/*.txt
+
+	# ignore all .pdf files in the doc/ directory
+	doc/**/*.pdf
+
+* Değişiklikleri commit etmek
+- Dosyalarınız istediğiniz şekilde *staged* durumuna gelmiş ise artık bu dosyaları commit edebilirsiniz.
+	$ git commit
+- Komutu ile terminaldeki varsayılan editorunuz açılır ve commit mesajınızı yazıp kaydedip çıkış yaptığınızda bu dosyalar artık commit edilmiş olur.
+- Editoru açmadan commit mesajınızı parametre olarak da yazıp commit yapabilirsiniz.
+	$ git commit -m "Add text to hello.txt file"
+	[master 463dc4f] Add text to hello.txt file
+	 2 files changed, 2 insertions(+)
+	 create mode 100644 hello.txt
+
+* Değişiklikleri geri almak
+- Son yaptığınız commit içine bir dosyayı koymayı unuttuysanız veya bir kaç değişiklik daha yapmanız gerektiyse veya commit mesajınızı değiştirmek isterseniz tüm bu değişiklikleri yaptıktan sonra bu komut ile tekrar commit edebilir ve önceki commit'inizi düzeltebilirsiniz.
+	$ git commit --amend
+
+* Bir dosyayı unstaged durumuna almak
+- Bir dosyayı *commit* yapmak üzere *staged* durumuna aldınız ve sonradan bu dosyanın aslında o *commit* içinde olmaması gerektiğini farkettiyseniz o dosyayı şu şekilde tekrar *unstaged* durumuna alabilirsiniz.
+	$ git reset HEAD hello.txt
+	Unstaged changes after reset:
+	M	hello.txt
+
+* Dosyadaki değişiklikleri son görüntüdeki haline getirmek
+- Dosyada yanlış bir değişiklik yaptıysanız bir önceki yaptığınız *commit* içindeki haline dosyayı geri getirebilirsiniz.
+	Changes not staged for commit:
+	  (use "git add <file>..." to update what will be committed)
+	  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	    modified:   hello.txt
+
+	$ git checkout -- hello.txt
+	$ git status
+	On branch master
+	Your branch is up-to-date with 'origin/master'.
+	nothing to commit, working tree clean
