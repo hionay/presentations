@@ -1,0 +1,78 @@
+git
+versiyon kontrol sistemi
+15 Nov 2016
+Tags: git, vcs, dvcs
+
+Halil Ibrahim Onay
+https://halil.io
+@hionay
+
+* Versiyon Kontrolü Sistemi (VCS)
+- *VCS*, dosyanın/dosyaların istediğiniz versiyonuna sonrasında erişmenizi ve geri dönmenizi sağlayan sistemdir.
+
+- Bu sistem ile projede istediğiniz bir noktaya dönebilir, kayıtlar arasındaki farklılıkları görebilir, sorun çıkaran bir dosyayı kimin değiştiğini görebilirsiniz.
+
+- *VCS* ile projenizde yolunda gitmeyen birşeyler olursa dosyalarınızı kolayca kurtarabilirsiniz.
+
+* Lokal Versiyon Kontrol Sistemi (LVCS)
+
+- Çoğu kullanıcının version tutmak için kullandığı metod, dosyaları başka bir klasöre tutmak olmuştur. Bu metod çok basit olmasına karşın beraberinde bir çok sorun getirir. Hangi projede çalıştığınız, hangi dosyaya yazdığınız zamanla unutulabilir ve projeniz bu metod ile karışabilir.
+
+- Bu sorunla başa çıkabilmek için programcılar uzun zaman önce bütün değişiklikleri lokal bir veritabanında tutan versiyon kontrol sistemi geliştirdiler.
+
+* Lokal Versiyon Kontrol Sistemi (LVCS)
+.image git/local.png
+
+* Merkezi Versiyon Kontrol Sistemleri (CVCS)
+- LVCS'de programcıların projelerde birlikte koordine çalışamaması CVCS'nin ortaya çıkmasını sağladı. Bu sistemler CVS, Subversion (SVN) gibi versiyonlanan bütün dosyaları tek bir sunucuda tutar. Aynı projede birden fazla kişi çalışabilir ve bu sayede kimin projenin neresinde çalıştığı görülebilir.
+
+- Bu tip sistemlerde de bazı sorunlar ortaya çıkmıştır. En ciddi sorun her şeyin tek bir sunucuya bağlı olmasıdır. Sunucu kapalı olduğunda kimse versiyon değişikliklerini sunucuya gönderemez ve bu da programcıların aynı projede birlikte çalışmasına engel olur.
+
+* Merkezi Versiyon Kontrol Sistemleri (CVCS)
+.image git/centralized.png
+
+* Dağıtık Versiyon Kontrol Sistemleri (DVCS)
+- DVCS'de (Git, Mercurial ve Bazaar gibi), istemciler istedikleri dosyaların sadece son görüntüsünü (snapshot) almaz tüm repoyu (repository/proje) indirirler (aynalama yaparlar).
+
+- Sunucu kapandığında veya başka bir sorun çıktığında, projeyi bulunduran herhangi bir kullanıcı bunu  sunucuya/sunuculara tekrar yükleyebilir.
+
+- Her klonlama reponun aynı zamanda komple bir yedekleme işlemidir.
+
+* Dağıtık Versiyon Kontrol Sistemleri (DVCS)
+.image git/distributed.png
+
+* Git Temelleri
+
+* Dosya Farklılıkları Yerine Dosya Görüntüleri
+- Git ile diğer VCS'lerin arasındaki en büyük fark Git'in data'ya öncelik vermesidir. Diğer sistemler (CVS, Subversion, Bazaar) sadece dosya bazlı değişiklikler hakkında bilgi tutarlar.
+.image git/deltas.png
+
+* Dosya Farklılıkları Yerine Dosya Görüntüleri
+- Git, dosyaları minyatür bir dosya sistemi içinde görüntüler olarak düşünür.
+- Her commit yaptığınızda, Git, dosyalarınızın o an nasıl göründüğünün görüntüsünü/fotoğrafını çeker ve bu görüntüyü referans olarak saklar.
+- Git, etkili ve hızlı olabilmek için, dosyanın içeriği değişmediyse o dosyayı tekrar saklamaz ve sadece o dosyaya ait bir link oluşturur.
+.image git/snapshots.png
+
+* Neredeyse bütün operasyonlar lokalde gerçekleşir
+- Git üzerinde çoğu operasyon sadece lokal bir ortama ihtiyaç duyar.
+- Diğer sistemlerin (CVS, Subversion vs.) aksine repoların tüm geçmişi aynı zamanda lokalde de tutulduğu için Git çok hızlı iş görür.
+- Örneğin bir projenin geçmişine bakmak isterseniz, Git bunu sunucudan çekip size göstermek yerine direk lokal veritabanından gösterir.
+- Bir dosyanın şu anki hali ile 1 ay önceki halini karşılaştırmak isterseniz, Git, sunucuya tekrar sormak yerine lokaldeki veritabanından 1 ay önceki dosyayı bulup farklılıkları size direk gösterebilir.
+- İnternetin olmadığı bir ortamda bu şekilde rahatça çalışabilir, internete çıktığınız anda istediğiniz zaman sunucuya son değişiklikleri gönderebilirsiniz.
+- CVS, Subversion gibi Merkezi Versiyon Kontrol Sistemlerinde ise internet bağlantısı olmadan dosyalarınızı değiştirebilir ancak commit yapamazsınız çünkü sunucu bağlantısı gerektirir.
+
+* Git üzerinde bütünlük ve doğruluk
+- Git üzerinde her şeyin kaydedilmeden önce checksum değeri hesaplanır ve bu değer referans olarak kullanılır.
+- Bu sayede Git'in bilgisi dışında bir dosya veya klasörün içeriği değiştirilemez.
+- Git bunun için SHA-1 hash algoritması kullanır.
+- Oluşturulan bu değer, rakamlar ve küçük harflerden oluşan 40 karakterlik bir string'dir.
+	24b9da6552252987aa493b52f8696cd6d3b00373
+
+* Üç Durum
+- Git üzerinde dosyaları belirten 3 ana durum vardır: işlenen (commit), değiştirilen (modify) ve sahnelenen (stage).
+- İşlenen (committed), datanın güvenli bir şekilde lokal veritabanına kaydedilmesi anlamına gelir.
+- Değiştirilen (modified), dosyanın değiştiği ancak lokal veritabanına henüz işlenmemiş (commit) olduğu anlamına gelir.
+- Sahnelenen (staged) ise değiştirilmiş bir dosyanın şu anki versiyonunun bir sonraki işlenecek (commit) görüntüye (snapshot) gitmesi için işaretlenmesi anlamına gelir.
+
+* Üç Durum
+.image git/areas.png
