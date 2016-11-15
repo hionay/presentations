@@ -202,6 +202,21 @@ Windows (GUI):
 	# ignore all .pdf files in the doc/ directory
 	doc/**/*.pdf
 
+* Dosya farklarına bakmak
+- Değiştirdiğiniz dosyalarda son *commit* yaptığınız görüntüsüne (snapshot) göre nelerin değiştiğini görmek istiyorsanız `git`diff` komutunu kullanabilirsiniz.
+	$ echo "merhaba dunya" >> deneme.txt
+	$ git diff
+	diff --git a/deneme.txt b/deneme.txt
+	index b7e1062..3d5e79e 100644
+	--- a/deneme.txt
+	+++ b/deneme.txt
+	@@ -1 +1,2 @@
+	 selam
+	+merhaba dunya
+	warning: LF will be replaced by CRLF in deneme.txt.
+	The file will have its original line endings in your working directory.
+- *staged* durumuna aldığınız dosyaların son *commit* içindeki görüntüsüyle aradaki farkı ise `--staged` parametresi ile görebilirsiniz.
+
 * Değişiklikleri commit etmek
 - Dosyalarınız istediğiniz şekilde *staged* durumuna gelmiş ise artık bu dosyaları commit edebilirsiniz.
 	$ git commit
@@ -223,7 +238,7 @@ Windows (GUI):
 	M	hello.txt
 
 * Dosyadaki değişiklikleri son görüntüdeki haline getirmek
-- Dosyada yanlış bir değişiklik yaptıysanız bir önceki yaptığınız *commit* içindeki haline dosyayı geri getirebilirsiniz.
+- Dosyada istenmeyen bir değişiklik yaptıysanız bir önceki yaptığınız *commit* içindeki haline dosyayı geri getirebilirsiniz.
 	Changes not staged for commit:
 	  (use "git add <file>..." to update what will be committed)
 	  (use "git checkout -- <file>..." to discard changes in working directory)
@@ -235,3 +250,7 @@ Windows (GUI):
 	On branch master
 	Your branch is up-to-date with 'origin/master'.
 	nothing to commit, working tree clean
+
+* Commit kayıtlarını görmek
+- Repodaki commitleri ve ayrıntılarını `git`log` komutuyla görebilirsiniz.
+- Kullanabileceğiniz faydalı parametreler `--oneline`, `--graph` gibi.
