@@ -254,3 +254,22 @@ Windows (GUI):
 * Commit kayıtlarını görmek
 - Repodaki commitleri ve ayrıntılarını `git`log` komutuyla görebilirsiniz.
 - Kullanabileceğiniz faydalı parametreler `--oneline`, `--graph` gibi.
+
+* Sunucuda yeni bir repo oluşturmak
+- Önce projenizi github veya gitlab üzerinden oluşturun.
+- Oluşturduğunuz bu boş projeyi `git`clone` komutuyla indirin.
+	$ git clone http://git/hionay/test-app.git
+	$ cd test-app
+	$ touch deneme.txt
+	$ git commit -m "Add deneme.txt
+	$ git push -u origin master
+
+* Var olan bir repoyu uzaktaki sunucuda oluşturmak
+- Projenizi github/gitlab üzerinde oluşturduktan sonra projenizde `git`init` ile git reposunu oluşturun.
+	$ cd test-app
+	$ git init
+- Reponuza hangi uzak sunucu ile çalışmasını istiyorsanız ekleyin.
+	$ git remote add origin http://git/hionay/test-app.git
+	$ git add .
+	$ git commit
+	$ git push -u origin master
